@@ -1,0 +1,3 @@
+->  https://bbbootstrap.com/snippets/bootstrap-5-simple-card-hover-effects-50607616
+
+->  https://gosnippets.com/snippets/bootstrap-4-ecommerce-product-cards-details-template

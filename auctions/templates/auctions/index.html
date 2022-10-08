@@ -1,0 +1,29 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <h1 class="my-4" style="padding-bottom: 1%; padding-left: 3%;">Active Listings
+    </h1>
+
+    <div class="container">
+        <!-- Listings -->
+        {% for listing in listings %}
+        <a style="text-decoration: none; color: inherit;" href="{% url 'product' listing.id  %}">
+        <div class="row" style="border: 5px solid #969696; padding: 5%;">
+          <div class="col-md-7">
+              <img class="img-fluid rounded mb-3 mb-md-0" src="{{ listing.image_url }}" alt="" style=" height: 300px; width: 500px; border: 1px solid #969696;"/>
+          </div>
+          <div class="col-md-5">
+            <h3>{{ listing.title }}</h3>
+            <h6 style="padding-top: 10%;"><strong> Price: </strong> ${{ listing.price }} <br></h6>
+            <p style="padding-top: 5%;">{{ listing.description }}</p>
+            <p style="padding-top: 5%; color: darkgrey;">Created at: {{ listing.created }} </p>
+          </div>
+        </div>
+      </a>
+        <!-- /.row -->
+        {% endfor %}
+    
+        <hr>
+      </div>
+{% endblock %}

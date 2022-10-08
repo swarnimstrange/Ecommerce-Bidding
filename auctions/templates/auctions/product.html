@@ -1,0 +1,91 @@
+{% extends 'auctions/layout.html' %}
+
+{% block body %}
+    <div class="col border p-3 main-section bg-white">
+        <div class="row m-0">
+            <div class="col-lg-6 left-side-product-box pb-3">
+                <img class="img-fluid rounded mb-3 mb-md-0" src="{{ product.image_url }}" alt="" style=" height: -webkit-fill-available; width: -webkit-fill-available; border: 1px solid #969696;"/>
+            </div>
+            <div class="col p-3">
+                <div class="right-side-pro-detail border p-3 m-0">
+                        <div class="row p-3">
+                            <div class="col-lg-12">
+                                <h3 style="color: #a1a1a1;"><strong>{{product.title}}</strong></h3>
+                            </div>
+                            <div class="col-lg-12">
+                                <p class="m-0 pt-3 pb-3 price-pro" style="color:#E45641; font-size: 25px;">${{product.price}}</p>
+                                <hr class="p-0 m-0">
+                            </div>
+                            <div class="col-lg-12 pt-2">
+                                <p class="tag-section pt-1" style="font-size: 18px; color: #5D4C46;"><strong>Product Description : </strong></p>
+                                <span class="pb-3" style="color: gray; font-size: 18px;">{{product.description}}</span>
+                                <hr class="m-0 pt-2 mt-2">
+                            </div>
+                            {% if product.closed == False %}
+                                <div class="col-lg-12">
+                                    <p class="tag-section pt-3 pb-2"><strong style="font-size: 18px; color: #5D4C46">Category : </strong><a href="{% url 'in_category' category=product.category %}"> <span style="font-size: 20px;">{{ product.category }} </span></a></p>
+                                </div>
+                                <div class="col-lg-12">
+                                    <p class="tag-section pb-2"><strong style="font-size: 18px; color: #5D4C46;">Listed by: </strong><span style="color: darkseagreen; font-size: 20px;">{{ product.created_by }}</span></p>
+                                </div>
+                                <div class="col-lg-12">
+                                    <p class="tag-section pb-2"><strong style="font-size: 18px; color: #5D4C46;">Current Highest Bid: </strong> <span style="color:#E45641; font-size: 20px;"> ${{ current_highest }} </span></p>
+                                </div>
+                                <div class="col-lg-12">
+                                    {% if color == 'darkcyan' %} 
+                                        <p class="pb-2" style="font-size: 16px; color: darkcyan;">{{ message }}</p>
+                                    {% else %}
+                                        <p class="pb-2" style="font-size: 16px; color: red;">{{ message }}</p>
+                                    {% endif %}
+                                    <form action="{% url 'product' product.id %}" method="post">
+                                        {% csrf_token %}
+                                    <input type="number" class="form-control text-center w-100 " placeholder="Bid" name="bid_input">
+                                </div>
+                                <div class="col-lg-12 mt-3">
+                                    <div class="row">
+                                        <div class="col pt-3 pb-3">
+                                            <input type="submit" class="btn btn-success w-100" value="Bid on it" name="bid_price" >
+                                        </div>
+                                    </div>
+                                </div>
+                                </form>
+                                <div class="col-lg-12 mt-3">
+                                    <div class="row">
+                                        <div class="col pt-3 pb-3">
+                                            {% if not exist %}
+                                                <a href="{% url 'add_to_wishlist' product.id %}" class="btn btn-info w-100">Add To Wishlist</a>
+                                            {% else %}
+                                                <a href="{% url 'remove_from_wishlist' product.id %}" class="btn btn-secondary w-100">Remove From Wishlist</a>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if own_user %}
+                                    <div class="col-lg-12 mt-3">
+                                            <div class="row">
+                                                <div class="col-lg-6 text-left">
+                                                    <a href="{% url 'delete_listing' product.id %}" class="btn btn-danger w-100">Delete Item</a>
+                                                </div>
+                                                <div class="col-lg-6 text-right">
+                                                    <a href="{% url 'closeBid' product.id %}" class="btn btn-warning w-100">Close Bidding</a>
+                                                </div>
+                                            </div>
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                            <div class="col-lg-12 pt-2">
+                                <h3 style="color: red;"> This Item is Closed! </h3>
+                                <hr class="m-0 pt-2 mt-2">
+                            </div>
+                            <div class="col-lg-12 pt-2">
+                                <h3 style="color: red;">{{ highest_bid_by }}</h3>
+                                <hr class="m-0 pt-2 mt-2">
+                            </div>
+                            {% endif %}
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
